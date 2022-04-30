@@ -95,7 +95,8 @@ name = "animated_cube"
 version = "0.1.0"
 dependencies = [
  "bevy 0.7.0",
- "bevy-inspector-egui",
+ "bevy-inspector-egui 0.9.0",
+ "bevy_editor_pls",
 ]
 
 [[package]]
@@ -261,11 +262,24 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "26f4429eb185e20d5fa39905be200a478dbb8f7661561639c3216d4925b64b6c"
 dependencies = [
  "bevy 0.6.1",
- "bevy-inspector-egui-derive",
- "bevy_egui",
+ "bevy-inspector-egui-derive 0.7.1",
+ "bevy_egui 0.12.1",
  "image",
  "pretty-type-name",
  "rand",
+]
+
+[[package]]
+name = "bevy-inspector-egui"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ef81226066444db328efa098c54ed30b6fb01fa19bde9a72a47566134ea5968e"
+dependencies = [
+ "bevy 0.7.0",
+ "bevy-inspector-egui-derive 0.10.0",
+ "bevy_egui 0.13.0",
+ "image",
+ "pretty-type-name",
 ]
 
 [[package]]
@@ -273,6 +287,17 @@ name = "bevy-inspector-egui-derive"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ee4aa234b3f1667a872967be1c590d3d3ba0c69cc63d23f134c572b52dff7087"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "bevy-inspector-egui-derive"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c00770400215f599ca98d2f85fe15ae164117b252de8779c06bdef03ee8af92f"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -587,6 +612,42 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevy_editor_pls"
+version = "0.1.0"
+source = "git+https://github.com/jakobhellermann/bevy_editor_pls#73e7e3cb27b9ae91c3004779208052bc27d40253"
+dependencies = [
+ "bevy 0.7.0",
+ "bevy_editor_pls_core",
+ "bevy_editor_pls_default_windows",
+ "egui",
+]
+
+[[package]]
+name = "bevy_editor_pls_core"
+version = "0.1.0"
+source = "git+https://github.com/jakobhellermann/bevy_editor_pls#73e7e3cb27b9ae91c3004779208052bc27d40253"
+dependencies = [
+ "bevy 0.7.0",
+ "bevy-inspector-egui 0.10.0",
+ "indexmap",
+]
+
+[[package]]
+name = "bevy_editor_pls_default_windows"
+version = "0.1.0"
+source = "git+https://github.com/jakobhellermann/bevy_editor_pls#73e7e3cb27b9ae91c3004779208052bc27d40253"
+dependencies = [
+ "bevy 0.7.0",
+ "bevy-inspector-egui 0.10.0",
+ "bevy_editor_pls_core",
+ "bevy_mod_debugdump",
+ "bevy_mod_raycast",
+ "indexmap",
+ "opener",
+ "pretty-type-name",
+]
+
+[[package]]
 name = "bevy_egui"
 version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -597,7 +658,23 @@ dependencies = [
  "bytemuck",
  "egui",
  "thread_local",
- "webbrowser",
+ "webbrowser 0.5.5",
+ "wgpu",
+ "winit",
+]
+
+[[package]]
+name = "bevy_egui"
+version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e9e78332493e8d2ee07046c3fe07f026dfc4509f86756a739a59cfa5af29c65b"
+dependencies = [
+ "arboard",
+ "bevy 0.7.0",
+ "bytemuck",
+ "egui",
+ "thread_local",
+ "webbrowser 0.6.0",
  "wgpu",
  "winit",
 ]
@@ -816,6 +893,26 @@ checksum = "20288df0f70ff258bbaffaf55209f1271a7436438591bbffc3d81e4d84b423f2"
 dependencies = [
  "bevy_reflect 0.7.0",
  "glam",
+]
+
+[[package]]
+name = "bevy_mod_debugdump"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b972ed434c5c2231b2a19f6935671b72b40451abd73548e3e9dd44871164205d"
+dependencies = [
+ "bevy_app 0.7.0",
+ "bevy_ecs 0.7.0",
+ "bevy_render 0.7.0",
+ "pretty-type-name",
+]
+
+[[package]]
+name = "bevy_mod_raycast"
+version = "0.4.0"
+source = "git+https://github.com/obsgolem/bevy_mod_raycast?branch=release#9c88ce2695035ff9117e53de3081db4672337711"
+dependencies = [
+ "bevy 0.7.0",
 ]
 
 [[package]]
@@ -1381,6 +1478,17 @@ name = "block"
 version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0d8c1fef690941d3e7788d328517591fecc684c084084702d6ff1641e993699a"
+
+[[package]]
+name = "bstr"
+version = "0.2.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ba3569f383e8f1598449f1a423e72e99569137b47740b1da11ef19af3d5c3223"
+dependencies = [
+ "lazy_static",
+ "memchr",
+ "regex-automata",
+]
 
 [[package]]
 name = "bumpalo"
@@ -1962,6 +2070,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "00b0228411908ca8685dba7fc2cdd70ec9990a6e753e89b6ac91a84c40fbaf4b"
 
 [[package]]
+name = "form_urlencoded"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5fc25a87fa4fd2094bffb06925852034d90a17f0d1e05197d4956d3555752191"
+dependencies = [
+ "matches",
+ "percent-encoding",
+]
+
+[[package]]
 name = "fsevent-sys"
 version = "4.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2245,6 +2363,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
 
 [[package]]
+name = "idna"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "418a0a6fab821475f634efe3ccc45c013f742efe03d853e8d3355d5cb850ecf8"
+dependencies = [
+ "matches",
+ "unicode-bidi",
+ "unicode-normalization",
+]
+
+[[package]]
 name = "image"
 version = "0.23.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2514,6 +2643,12 @@ checksum = "8263075bb86c5a1b1427b5ae862e8889656f126e9f77c484496e8b47cf5c5558"
 dependencies = [
  "regex-automata",
 ]
+
+[[package]]
+name = "matches"
+version = "0.1.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a3e378b66a060d48947b590737b30a1be76706c8dd7b8ba0f2fe3989c68a853f"
 
 [[package]]
 name = "memchr"
@@ -2950,6 +3085,16 @@ name = "once_cell"
 version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "87f3e037eac156d1775da914196f0f37741a274155e34a0b7e427c35d2a2ecb9"
+
+[[package]]
+name = "opener"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ea3ebcd72a54701f56345f16785a6d3ac2df7e986d273eb4395c0b01db17952"
+dependencies = [
+ "bstr",
+ "winapi",
+]
 
 [[package]]
 name = "owned_ttf_parser"
@@ -3641,6 +3786,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c74c96594835e10fa545e2a51e8709f30b173a092bfd6036ef2cec53376244f3"
 
 [[package]]
+name = "unicode-bidi"
+version = "0.3.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "099b7128301d285f79ddd55b9a83d5e6b9e97c92e0ea0daebee7263e932de992"
+
+[[package]]
+name = "unicode-normalization"
+version = "0.1.19"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d54590932941a9e9266f0832deed84ebe1bf2e4c9e4a3554d393d18f5e854bf9"
+dependencies = [
+ "tinyvec",
+]
+
+[[package]]
 name = "unicode-width"
 version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3651,6 +3811,18 @@ name = "unicode-xid"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3"
+
+[[package]]
+name = "url"
+version = "2.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a507c383b2d33b5fc35d1861e77e6b383d158b2da5e14fe51b83dfedf6fd578c"
+dependencies = [
+ "form_urlencoded",
+ "idna",
+ "matches",
+ "percent-encoding",
+]
 
 [[package]]
 name = "uuid"
@@ -3792,7 +3964,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ecad156490d6b620308ed411cfee90d280b3cbd13e189ea0d3fada8acc89158a"
 dependencies = [
  "web-sys",
- "widestring",
+ "widestring 0.4.3",
+ "winapi",
+]
+
+[[package]]
+name = "webbrowser"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f9c28b6b6a78440b02647358625e3febc90724126480b9da6a967b5f674b3554"
+dependencies = [
+ "jni",
+ "ndk-glue 0.5.2",
+ "url",
+ "web-sys",
+ "widestring 0.5.1",
  "winapi",
 ]
 
@@ -3898,6 +4084,12 @@ name = "widestring"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c168940144dd21fd8046987c16a46a33d5fc84eec29ef9dcddc2ac9e31526b7c"
+
+[[package]]
+name = "widestring"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "17882f045410753661207383517a6f62ec3dbeb6a4ed2acce01f0728238d1983"
 
 [[package]]
 name = "winapi"
