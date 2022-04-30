@@ -5,7 +5,7 @@ use bevy_editor_pls::*;
 
 const SPEED: f32 = 0.5;
 const AMP: f32 = 2.;
-const MIN_AMP: f32 = 1.;
+const MIN_AMP: f32 = 1.; //f32 to prevent to many annoying casts
 const COLUMN: f32 = 15.;
 const ROW: f32 = 15.;
 
@@ -31,7 +31,6 @@ fn setup(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
-    // set up the camera
     let mut camera = OrthographicCameraBundle::new_3d();
     camera.orthographic_projection.scale = f32::sqrt(COLUMN as f32) * 2.2;
     camera.transform = Transform::from_xyz(-10.0, 12., -10.0).looking_at(Vec3::new(0.0, 3.0, 0.0), Vec3::Y);
@@ -41,9 +40,7 @@ fn setup(
     
 
     // cubes
-    
     for i in 0..ROW as i32{
-        println!("{}", i);
         for j in 0..COLUMN as i32{
             commands.spawn()
                 .insert(Column{
@@ -67,7 +64,6 @@ fn setup(
                         },
                     ..Default::default()
                     });
-                    //Transform::from_xyz(-2.5 + (j as f32), 1.5, -2.5 + (i as f32))
         }
     }
 
@@ -82,8 +78,7 @@ fn setup(
     });
     // light
     commands.spawn_bundle(PointLightBundle {
-        // transform: Transform::from_xyz(5.0, 8.0, 2.0),
-        transform: Transform::from_xyz(COLUMN as f32 * -0.5, 12.0, ROW as f32 * -0.75),
+        transform: Transform::from_xyz(COLUMN * -0.5, 12.0, ROW * -0.75),
         point_light: PointLight {
             intensity: 200.0 * ROW, 
             shadows_enabled: false,
@@ -100,6 +95,5 @@ fn sin_move(time: Res<Time>, _input: Res<Input<KeyCode>>, mut cubes: Query<(&Col
             cube.scale.y = MIN_AMP + AMP + AMP * f32::sin(
                 SPEED * PI * 2. * x + f32::sqrt(
                     f32::powi(id.delay_x - ((COLUMN-1.)/2.), 2) + f32::powi(id.delay_y - ((ROW-1.)/2.), 2)));
-                    //f32::powi(id.delay_x - (COLUMN/2.), 2) + f32::powi(id.delay_y - (ROW/2.), 2)));
     }
 }
