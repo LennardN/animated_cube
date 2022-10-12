@@ -97,6 +97,7 @@ dependencies = [
  "bevy 0.7.0",
  "bevy-inspector-egui 0.9.0",
  "bevy_editor_pls",
+ "byteorder",
 ]
 
 [[package]]

@@ -1,13 +1,15 @@
 use std::f32::consts::PI;
-
+use std::fs;
 use bevy::prelude::*;
 use bevy_editor_pls::*;
+use std::io::Cursor;
+use byteorder::*;
 
 const SPEED: f32 = 0.5;
 const AMP: f32 = 2.;
 const MIN_AMP: f32 = 1.; //f32 to prevent to many annoying casts
-const COLUMN: f32 = 15.;
-const ROW: f32 = 15.;
+const COLUMN: f32 = 25.;
+const ROW: f32 = 25.;
 
 fn main() {
     App::new()
@@ -16,7 +18,7 @@ fn main() {
         .add_plugin(EditorPlugin)
         .add_plugin(bevy::diagnostic::FrameTimeDiagnosticsPlugin)
         .add_startup_system(setup)
-        .add_system(sin_move)
+        .add_system(wave_animation)
         .run();
 }
 
@@ -25,6 +27,11 @@ struct Column{
     delay_x: f32,
     delay_y: f32
 }
+
+struct RiffFileHandler{
+    riff: Vec<u8>,
+}
+
 
 fn setup(
     mut commands: Commands,
@@ -37,7 +44,16 @@ fn setup(
 
     // camera
     commands.spawn_bundle(camera);
-    
+
+
+
+    let file = fs::read("./assets/habstraktVibeMono.wav").expect("no file found");  
+    //let mut rdr = Cursor::new(file);
+    //rdr.set_position(44);
+    commands.insert_resource(RiffFileHandler{
+        riff: file,
+    });
+
 
     // cubes
     for i in 0..ROW as i32{
@@ -59,7 +75,7 @@ fn setup(
                     material: materials.add(Color::rgb(1.,0.3, 0.).into()),
                     transform: Transform { 
                         translation: (Vec3::new((ROW/-2.) + i as f32, 3.0, (COLUMN/-2.) + j as f32)), 
-                        scale: (Vec3::new(0.8, 1.0, 0.8)),
+                        scale: (Vec3::new(1.0, 1.0, 1.0)),
                         ..Default::default()
                         },
                     ..Default::default()
@@ -89,11 +105,22 @@ fn setup(
     });
 }
 
-fn sin_move(time: Res<Time>, _input: Res<Input<KeyCode>>, mut cubes: Query<(&Column, &mut Transform)>){
+fn wave_animation(time: Res<Time>, file: Res<RiffFileHandler>, mut cubes: Query<(&Column, &mut Transform)>){
     let x: f32 = time.seconds_since_startup() as f32;
+
     for  (id, mut cube) in cubes.iter_mut(){
-            cube.scale.y = MIN_AMP + AMP + AMP * f32::sin(
+            cube.scale.y = MIN_AMP + AMP + AMP * iterate_db_audio( //sine-func => iterate_Db_Audio()
                 SPEED * PI * 2. * x + f32::sqrt(
-                    f32::powi(id.delay_x - ((COLUMN-1.)/2.), 2) + f32::powi(id.delay_y - ((ROW-1.)/2.), 2)));
+                    f32::powi(id.delay_x - ((COLUMN-1.)/2.), 2) + f32::powi(id.delay_y - ((ROW-1.)/2.), 2)), &file.riff);
+                    /*cube.scale.y = MIN_AMP + AMP + AMP * f32::sin(SPEED * PI * -2. * x + f32::sqrt(f32::powi(id.delay_x - ((COLUMN-1.)/2.), 2) + f32::powi(id.delay_y - ((ROW-1.)/2.), 2))); */
     }
+}
+
+fn iterate_db_audio(sec: f32, file: &Vec<u8>) -> f32{
+    let mut rdr = Cursor::new(file);
+    //println!("{sec}");
+    rdr.set_position((sec) as u64 * 44100);
+    println!("{sec}");
+    
+    return (rdr.read_i16::<LittleEndian>().unwrap() as f32) / i16::MAX as f32;
 }

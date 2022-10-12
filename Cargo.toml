@@ -9,6 +9,7 @@ edition = "2021"
 bevy = "0.7.0"
 bevy-inspector-egui = "0.9.0"
 bevy_editor_pls = {git = "https://github.com/jakobhellermann/bevy_editor_pls"}
+byteorder = "1"
 
 [profile.dev]
 opt-level = 1
